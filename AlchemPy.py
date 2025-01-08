@@ -48,21 +48,37 @@ it'll show up in the element list!"""[1:]) # It just looks good
 os.system("pause >nul && cls")
 
 data=open("Recipes.dat", "r").read()
-elements, recipes=tuple(data.split("\n-\n"))
-elements=elements.split("\n")
-r=[]
-rkeys=[]
-for x in recipes.split("\n"):
+elements, recipes=tuple(data.split("\n-\n")) 	# Elements are separated from the recipes using a - (dash)
+elements=elements.split("\n") 					# Every Element is defined in a new line
+r=[]											# r is an empty array as of now
+rkeys=[]										# rkeys is an empty array as of now
+result = []
+for x in recipes.split("\n"):					# going through every recipe. x= recipe[i]
 	# What in the goddamn fuck is any of this
-	com=set(x.split("=")[0].split("+"))
-	res=[x.split("=")[1]]
-	if com in rkeys:
+	com=set(x.split("=")[0].split("+"))			# com = first element + second element
+	res=[x.split("=")[1]]						# res = the product of the above two elemnents
+	
+	if com in rkeys:							
 		r[[x[0] for x in r].index(com)][1].append(res[0]) # ?????
 	else:
-		rkeys.append(com)
-		r.append([com, res]) # [[{"earth, air"},["dust"]]...]
-recipes=r
+		rkeys.append(com) 						# if com is not in rkeys, add the set of elemnts in rkeys
+		r.append([com, res]) 					# and add the com and res as an array to r. [[{"earth, air"},["dust"]]...]
+										# recipes has all the all the recipes in form [[{"earth, air"},["dust"]]...]
 
+#to count total number of distinct elements
+for x in recipes.split("\n"):
+	res = [x.split("=")[1]]
+	if res in result:
+		continue
+	elif res not in result:
+		result.append(res[0])
+		
+import numpy
+
+
+print(result)
+print("The number of total products = "+ str(len(result)))
+recipes=r
 dispPage=0 # Which 8 elements to list
 ePerPage=8 # How many elements to list per page
 txt=""
@@ -70,7 +86,7 @@ new=""
 while True:
 	#print(elements)
 	#print(recipes)
-	pages=(len(elements)-1)//ePerPage
+	pages=(len(elements)-1)//ePerPage			
 	print("Page "+str(dispPage+1)+"/"+str(pages+1))
 	plist=[x.capitalize() for x in elements[dispPage*ePerPage:(dispPage+1)*ePerPage]]
 	print("---")
@@ -79,6 +95,10 @@ while True:
 	print(txt)
 	if new!="":
 		print("Discovered "+new)
+
+	#Added code here
+	#for i in 
+
 	cin=input(">>>")
 	if cin in ["next", ">", "+", "."]:
 		dispPage+=1
